@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - TechnoWatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            min-height: 100vh;
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(26, 35, 126, 0.9);
+        }
+        
+        .feature-card {
+            background: rgba(40, 53, 147, 0.8);
+            border: 1px solid rgba(0, 188, 212, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 188, 212, 0.3);
+            border-color: rgba(0, 188, 212, 0.5);
+        }
+        
+        .tech-node {
+            background: rgba(0, 188, 212, 0.1);
+            border: 2px solid #00bcd4;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tech-node:hover {
+            background: rgba(0, 188, 212, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
+        }
+        
+        .tech-node.active {
+            background: rgba(0, 188, 212, 0.3);
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.7);
+        }
+        
+        .comparison-table {
+            background: rgba(26, 35, 126, 0.8);
+            border: 1px solid rgba(0, 188, 212, 0.2);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #00bcd4, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold">
+                        <span class="text-white">Techno</span><span class="text-cyan-400">Watch</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-white hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                        <a href="features.html" class="text-cyan-400 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Features</a>
+                        <a href="pricing.html" class="text-white hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Pricing</a>
+                        <a href="#about" class="text-white hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">About</a>
+                        <a href="#contact" class="text-white hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl lg:text-6xl font-bold mb-6">
+                Powerful Features for <span class="gradient-text">Modern Teams</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
+                Discover the comprehensive suite of tools and capabilities that make TechnoWatch the ultimate solution for technology infrastructure management.
+            </p>
+            <img src="resources/ecosystem.png" alt="Technology Ecosystem" class="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl">
+        </div>
+    </section>
+
+    <!-- Feature Categories -->
+    <section class="py-20 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+                <div>
+                    <h2 class="text-4xl font-bold mb-8">Monitoring & Analytics</h2>
+                    <div class="space-y-6">
+                        <div class="feature-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-4 text-cyan-400">Real-time Performance Monitoring</h3>
+                            <p class="text-gray-300 mb-4">
+                                Monitor your entire infrastructure in real-time with sub-second latency. Get instant visibility into system performance, resource utilization, and application health across all your environments.
+                            </p>
+                            <ul class="text-gray-400 space-y-2">
+                                <li>• CPU, Memory, Disk, and Network monitoring</li>
+                                <li>• Application performance tracking</li>
+                                <li>• Custom metric collection and visualization</li>
+                                <li>• Predictive alerting and anomaly detection</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="feature-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-4 text-cyan-400">AI-Powered Analytics Engine</h3>
+                            <p class="text-gray-300 mb-4">
+                                Our advanced machine learning algorithms analyze patterns in your infrastructure data to provide predictive insights and automated optimization recommendations.
+                            </p>
+                            <ul class="text-gray-400 space-y-2">
+                                <li>• Predictive capacity planning</li>
+                                <li>• Anomaly detection and root cause analysis</li>
+                                <li>• Performance trend forecasting</li>
+                                <li>• Automated optimization suggestions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <img src="resources/analytics.png" alt="Analytics Dashboard" class="w-full rounded-2xl shadow-2xl">
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+                <div class="lg:order-2">
+                    <h2 class="text-4xl font-bold mb-8">Security & Compliance</h2>
+                    <div class="space-y-6">
+                        <div class="feature-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-4 text-cyan-400">Comprehensive Security Monitoring</h3>
+                            <p class="text-gray-300 mb-4">
+                                Protect your infrastructure with continuous security monitoring, threat detection, and vulnerability assessment capabilities.
+                            </p>
+                            <ul class="text-gray-400 space-y-2">
+                                <li>• Real-time threat detection and response</li>
+                                <li>• Vulnerability scanning and assessment</li>
+                                <li>• Security event correlation and analysis</li>
+                                <li>• Compliance reporting and auditing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="feature-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-4 text-cyan-400">Compliance Management</h3>
+                            <p class="text-gray-300 mb-4">
+                                Stay compliant with industry standards and regulations through automated compliance monitoring and reporting.
+                            </p>
+                            <ul class="text-gray-400 space-y-2">
+                                <li>• SOC 2, ISO 27001, GDPR compliance</li>
+                                <li>• Automated compliance checking</li>
+                                <li>• Audit trail and documentation</li>
+                                <li>• Risk assessment and management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:order-1">
+                    <img src="resources/security.png" alt="Security Dashboard" class="w-full rounded-2xl shadow-2xl">
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold mb-8">Collaboration Tools</h2>
+                    <div class="space-y-6">
+                        <div class="feature-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-4 text-cyan-400">Team Dashboards & Sharing</h3>
+                            <p class="text-gray-300 mb-4">
+                                Foster collaboration with shared dashboards, team workspaces, and role-based access control for seamless workflow management.
+                            </p>
+                            <ul class="text-gray-400 space-y-2">
+                                <li>• Customizable team dashboards</li>
+                                <li>• Role-based access control</li>
+                                <li>• Shared alerts and notifications</li>
+                                <li>• Collaborative incident response</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="feature-card p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-4 text-cyan-400">Integration Ecosystem</h3>
+                            <p class="text-gray-300 mb-4">
+                                Connect with your existing tools and workflows through our extensive integration library and API-first architecture.
+                            </p>
+                            <ul class="text-gray-400 space-y-2">
+                                <li>• 100+ pre-built integrations</li>
+                                <li>• RESTful API for custom connections</li>
+                                <li>• Webhook support for real-time data</li>
+                                <li>• Third-party tool synchronization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <img src="resources/tech-team.jpg" alt="Team Collaboration" class="w-full rounded-2xl shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Tech Stack -->
+    <section class="py-20 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-6">Technology Stack Visualizer</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Explore our comprehensive technology ecosystem and see how TechnoWatch integrates with your existing infrastructure.
+                </p>
+            </div>
+            
+            <div class="relative bg-gray-900 bg-opacity-50 p-12 rounded-2xl border border-cyan-500 border-opacity-20">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="tech-node p-6 rounded-xl text-center" data-tech="frontend">
+                        <div class="w-16 h-16 bg-cyan-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold">Frontend</h3>
+                        <p class="text-sm text-gray-400">React, Vue.js, Angular</p>
+                    </div>
+                    
+                    <div class="tech-node p-6 rounded-xl text-center" data-tech="backend">
+                        <div class="w-16 h-16 bg-cyan-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold">Backend</h3>
+                        <p class="text-sm text-gray-400">Node.js, Python, Go</p>
+                    </div>
+                    
+                    <div class="tech-node p-6 rounded-xl text-center" data-tech="database">
+                        <div class="w-16 h-16 bg-cyan-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold">Database</h3>
+                        <p class="text-sm text-gray-400">PostgreSQL, MongoDB, Redis</p>
+                    </div>
+                    
+                    <div class="tech-node p-6 rounded-xl text-center" data-tech="cloud">
+                        <div class="w-16 h-16 bg-cyan-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold">Cloud</h3>
+                        <p class="text-sm text-gray-400">AWS, Azure, GCP</p>
+                    </div>
+                    
+                    <div class="tech-node p-6 rounded-xl text-center" data-tech="monitoring">
+                        <div class="w-16 h-16 bg-cyan-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold">Monitoring</h3>
+                        <p class="text-sm text-gray-400">Prometheus, Grafana</p>
+                    </div>
+                    
+                    <div class="tech-node p-6 rounded-xl text-center" data-tech="security">
+                        <div class="w-16 h-16 bg-cyan-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold">Security</h3>
+                        <p class="text-sm text-gray-400">OAuth, JWT, SSL/TLS</p>
+                    </div>
+                    
+                    <div class="tech-node p-6 rounded-xl text-center" data-tech="devops">
+                        <div class="w-16 h-16 bg-cyan-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold">DevOps</h3>
+                        <p class="text-sm text-gray-400">Docker, Kubernetes, CI/CD</p>
+                    </div>
+                    
+                    <div class="tech-node p-6 rounded-xl text-center" data-tech="api">
+                        <div class="w-16 h-16 bg-cyan-500 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold">API</h3>
+                        <p class="text-sm text-gray-400">REST, GraphQL, Webhooks</p>
+                    </div>
+                </div>
+                
+                <div id="tech-details" class="mt-12 p-8 bg-gray-800 bg-opacity-50 rounded-xl border border-cyan-500 border-opacity-20">
+                    <h3 class="text-2xl font-bold mb-4">Click on any technology to learn more</h3>
+                    <p class="text-gray-300">Our platform integrates seamlessly with modern technology stacks, providing comprehensive monitoring and management capabilities across your entire infrastructure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="py-20 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-6">Why Choose TechnoWatch?</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    See how TechnoWatch compares to traditional monitoring solutions and why leading technology teams choose our platform.
+                </p>
+            </div>
+            
+            <div class="comparison-table rounded-2xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-800 bg-opacity-80">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-lg font-bold">Feature</th>
+                                <th class="px-6 py-4 text-center text-lg font-bold text-cyan-400">TechnoWatch</th>
+                                <th class="px-6 py-4 text-center text-lg font-bold">Traditional Tools</th>
+                                <th class="px-6 py-4 text-center text-lg font-bold">Cloud Native</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-700">
+                            <tr class="hover:bg-gray-800 hover:bg-opacity-30">
+                                <td class="px-6 py-4 font-semibold">AI-Powered Analytics</td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-yellow-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-800 hover:bg-opacity-30">
+                                <td class="px-6 py-4 font-semibold">Real-time Monitoring</td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-yellow-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-800 hover:bg-opacity-30">
+                                <td class="px-6 py-4 font-semibold">Predictive Analytics</td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-800 hover:bg-opacity-30">
+                                <td class="px-6 py-4 font-semibold">Scalability</td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-yellow-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-800 hover:bg-opacity-30">
+                                <td class="px-6 py-4 font-semibold">Cost Optimization</td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-yellow-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-800 hover:bg-opacity-30">
+                                <td class="px-6 py-4 font-semibold">Ease of Use</td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-yellow-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    </svg>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <svg class="w-6 h-6 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 reveal">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6">Ready to Transform Your Infrastructure?</h2>
+            <p class="text-xl text-gray-300 mb-12">
+                Join thousands of technology leaders who trust TechnoWatch for their critical infrastructure monitoring and management needs.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="pricing.html" class="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:scale-105">
+                    View Pricing Plans
+                </a>
+                <a href="index.html#early-access" class="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:scale-105">
+                    Start Free Trial
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="text-2xl font-bold mb-4">
+                        <span class="text-white">Techno</span><span class="text-cyan-400">Watch</span>
+                    </div>
+                    <p class="text-gray-300 mb-6 max-w-md">
+                        Empowering technology teams with AI-driven infrastructure monitoring and optimization solutions.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="features.html" class="text-gray-400 hover:text-cyan-400 transition-colors">Features</a></li>
+                        <li><a href="pricing.html" class="text-gray-400 hover:text-cyan-400 transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">API Reference</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 hover:text-cyan-400 transition-colors">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">Careers</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-cyan-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 TechnoWatch. All rights reserved. Built with modern web technologies and AI-powered insights.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+
+            // Tech stack interaction
+            const techNodes = document.querySelectorAll('.tech-node');
+            const techDetails = document.getElementById('tech-details');
+            
+            const techInfo = {
+                frontend: {
+                    title: 'Frontend Technologies',
+                    description: 'TechnoWatch provides comprehensive monitoring for modern frontend frameworks including React, Vue.js, and Angular. Track performance metrics, user experience data, and application stability in real-time.'
+                },
+                backend: {
+                    title: 'Backend Services',
+                    description: 'Monitor your backend services built with Node.js, Python, Go, and other popular languages. Get insights into response times, error rates, and resource utilization across your entire backend infrastructure.'
+                },
+                database: {
+                    title: 'Database Performance',
+                    description: 'Keep your databases running at peak performance with monitoring for PostgreSQL, MongoDB, Redis, and more. Track query performance, connection pools, and storage utilization.'
+                },
+                cloud: {
+                    title: 'Cloud Infrastructure',
+                    description: 'Seamlessly integrate with AWS, Azure, and Google Cloud Platform. Monitor cloud resources, costs, and performance across multiple regions and availability zones.'
+                },
+                monitoring: {
+                    title: 'Monitoring Stack',
+                    description: 'Enhance your existing monitoring setup with Prometheus and Grafana integration. Leverage your current investments while gaining advanced AI-powered insights.'
+                },
+                security: {
+                    title: 'Security Integration',
+                    description: 'Maintain enterprise-grade security with OAuth 2.0, JWT tokens, and SSL/TLS encryption. Ensure your monitoring data remains secure and compliant.'
+                },
+                devops: {
+                    title: 'DevOps Toolchain',
+                    description: 'Integrate with your DevOps workflow using Docker, Kubernetes, and CI/CD pipelines. Automate monitoring setup and configuration management.'
+                },
+                api: {
+                    title: 'API-First Architecture',
+                    description: 'Built with a modern API-first approach supporting REST, GraphQL, and webhooks. Easily integrate TechnoWatch into any custom workflow or application.'
+                }
+            };
+            
+            techNodes.forEach(node => {
+                node.addEventListener('click', function() {
+                    // Remove active class from all nodes
+                    techNodes.forEach(n => n.classList.remove('active'));
+                    // Add active class to clicked node
+                    this.classList.add('active');
+                    
+                    const tech = this.getAttribute('data-tech');
+                    const info = techInfo[tech];
+                    
+                    if (info) {
+                        techDetails.innerHTML = `
+                            <h3 class="text-2xl font-bold mb-4 text-cyan-400">${info.title}</h3>
+                            <p class="text-gray-300">${info.description}</p>
+                        `;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechnoWatch - Innovation Through Technology</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(30, 58, 142, 0.95);
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-main.png') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 25px 50px rgba(30, 58, 142, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(30, 58, 142, 0.3);
+        }
+        
+        .btn-secondary {
+            border: 2px solid #1e3a8e;
+            color: #1e3a8e;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #1e3a8e;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 25px rgba(30, 58, 142, 0.3);
+        }
+        
+        .stats-bg {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+        }
+        
+        .counter {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .image-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .image-carousel img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .splide__slide img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-blur shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-white">Techno</span><span class="text-blue-300">Watch</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-white hover:text-blue-300 px-3 py-2 text-sm font-medium transition-colors border-b-2 border-blue-300">HOME</a>
+                        <a href="about.html" class="text-white hover:text-blue-300 px-3 py-2 text-sm font-medium transition-colors">ABOUT US</a>
+                        <a href="contact.html" class="text-white hover:text-blue-300 px-3 py-2 text-sm font-medium transition-colors">CONTACT</a>
+                        <a href="merch.html" class="text-white hover:text-blue-300 px-3 py-2 text-sm font-medium transition-colors">MERCH</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white hover:text-blue-300">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-blue-900 bg-opacity-95">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="text-blue-300 block px-3 py-2 text-base font-medium border-l-4 border-blue-300">HOME</a>
+                <a href="about.html" class="text-white hover:text-blue-300 block px-3 py-2 text-base font-medium">ABOUT US</a>
+                <a href="contact.html" class="text-white hover:text-blue-300 block px-3 py-2 text-base font-medium">CONTACT</a>
+                <a href="merch.html" class="text-white hover:text-blue-300 block px-3 py-2 text-base font-medium">MERCH</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center pt-16">
+        <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight text-white">
+                        Innovation Through <span class="text-blue-300">Technology</span>
+                    </h1>
+                    <p class="text-xl lg:text-2xl text-blue-100 leading-relaxed">
+                        Empowering businesses with cutting-edge solutions, advanced monitoring systems, 
+                        and transformative digital experiences that drive growth and efficiency.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="about.html" class="btn-primary text-white px-8 py-4 rounded-lg text-lg font-semibold inline-block text-center">
+                            Discover Our Story
+                        </a>
+                        <a href="contact.html" class="btn-secondary bg-white px-8 py-4 rounded-lg text-lg font-semibold inline-block text-center">
+                            Get In Touch
+                        </a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="floating">
+                        <img src="resources/hero-main.png" alt="TechnoWatch Technology" class="w-full h-auto rounded-2xl shadow-2xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 gradient-text">Our Core Solutions</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Comprehensive technology solutions designed to transform your business operations 
+                    and drive sustainable growth in the digital era.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                    <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Smart Monitoring</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Advanced AI-powered monitoring systems that provide real-time insights, 
+                        predictive analytics, and automated responses to keep your operations running smoothly.
+                    </p>
+                </div>
+
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                    <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Performance Optimization</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Cutting-edge optimization tools that enhance system performance, 
+                        reduce latency, and maximize efficiency across your entire technology infrastructure.
+                    </p>
+                </div>
+
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                    <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Security Solutions</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Enterprise-grade security frameworks that protect your digital assets, 
+                        ensure compliance, and provide peace of mind in an interconnected world.
+                    </p>
+                </div>
+
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                    <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Team Collaboration</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Integrated collaboration platforms that connect your teams, 
+                        streamline workflows, and enhance productivity across all departments.
+                    </p>
+                </div>
+
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                    <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Data Analytics</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Powerful analytics platforms that transform raw data into actionable insights, 
+                        helping you make informed decisions and drive business growth.
+                    </p>
+                </div>
+
+                <div class="card-hover bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+                    <div class="feature-icon w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Custom Solutions</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Tailored technology solutions designed specifically for your unique business needs, 
+                        ensuring optimal performance and maximum return on investment.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 reveal">
+        <div class="stats-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="grid md:grid-cols-4 gap-8 text-center">
+                    <div class="stagger">
+                        <div class="counter text-white" data-target="500" data-suffix="+">0+</div>
+                        <p class="text-blue-200 text-lg mt-2">Happy Clients</p>
+                    </div>
+                    <div class="stagger">
+                        <div class="counter text-white" data-target="99" data-suffix="%">0%</div>
+                        <p class="text-blue-200 text-lg mt-2">Uptime Guarantee</p>
+                    </div>
+                    <div class="stagger">
+                        <div class="counter text-white" data-target="50" data-suffix="+">0+</div>
+                        <p class="text-blue-200 text-lg mt-2">Expert Team</p>
+                    </div>
+                    <div class="stagger">
+                        <div class="counter text-white" data-target="24" data-suffix="/7">0/7</div>
+                        <p class="text-blue-200 text-lg mt-2">Support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Showcase -->
+    <section class="py-20 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Technology Showcase</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Explore our cutting-edge technology solutions and see how we're shaping the future of digital innovation.
+                </p>
+            </div>
+            
+            <div class="splide" id="tech-carousel">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                                <img src="resources/hero-main.png" alt="Smart Monitoring Dashboard" class="w-full h-64 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2">Smart Monitoring Dashboard</h3>
+                                    <p class="text-gray-600">Real-time insights and predictive analytics for optimal performance.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                                <img src="resources/team-collaboration.png" alt="Team Collaboration Tools" class="w-full h-64 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2">Team Collaboration Tools</h3>
+                                    <p class="text-gray-600">Seamless integration and communication across all team members.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                                <img src="resources/merch-showcase.png" alt="Premium Tech Merchandise" class="w-full h-64 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2">Premium Tech Merchandise</h3>
+                                    <p class="text-gray-600">High-quality products that represent our commitment to excellence.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                                <img src="resources/hero-main.png" alt="Advanced Analytics" class="w-full h-64 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2">Advanced Analytics</h3>
+                                    <p class="text-gray-600">Deep insights and data visualization for informed decision-making.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 reveal">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6 gradient-text">Ready to Transform Your Business?</h2>
+            <p class="text-xl text-gray-600 mb-12">
+                Join thousands of innovative companies that trust TechnoWatch to power their digital transformation journey.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="contact.html" class="btn-primary text-white px-8 py-4 rounded-lg text-lg font-semibold inline-block text-center">
+                    Start Your Journey
+                </a>
+                <a href="about.html" class="btn-secondary bg-white px-8 py-4 rounded-lg text-lg font-semibold inline-block text-center">
+                    Learn More About Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="text-2xl font-bold mb-4">
+                        <span class="text-white">Techno</span><span class="text-blue-400">Watch</span>
+                    </div>
+                    <p class="text-gray-300 mb-6 max-w-md">
+                        Empowering businesses with cutting-edge technology solutions, advanced monitoring systems, 
+                        and transformative digital experiences that drive growth and efficiency.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046.847c.473-.9 1.636-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.347-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-blue-400 transition-colors">Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-blue-400 transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-blue-400 transition-colors">Contact</a></li>
+                        <li><a href="merch.html" class="text-gray-400 hover:text-blue-400 transition-colors">Merchandise</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="contact.html" class="text-gray-400 hover:text-blue-400 transition-colors">Help Center</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-blue-400 transition-colors">Contact Support</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">API Reference</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 TechnoWatch. All rights reserved. Built with modern web technologies and innovative design.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Splide carousel
+        document.addEventListener('DOMContentLoaded', function() {
+            new Splide('#tech-carousel', {
+                type: 'loop',
+                perPage: 3,
+                perMove: 1,
+                gap: '2rem',
+                autoplay: true,
+                interval: 4000,
+                breakpoints: {
+                    1024: {
+                        perPage: 2,
+                    },
+                    640: {
+                        perPage: 1,
+                    }
+                }
+            }).mount();
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

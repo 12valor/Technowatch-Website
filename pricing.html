@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - TechnoWatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            min-height: 100vh;
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(26, 35, 126, 0.9);
+        }
+        
+        .pricing-card {
+            background: rgba(40, 53, 147, 0.8);
+            border: 1px solid rgba(0, 188, 212, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 188, 212, 0.3);
+            border-color: rgba(0, 188, 212, 0.5);
+        }
+        
+        .pricing-card.featured {
+            border-color: #00bcd4;
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .calculator {
+            background: rgba(26, 35, 126, 0.8);
+            border: 1px solid rgba(0, 188, 212, 0.2);
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #374151;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00bcd4;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00bcd4;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+        }
+        
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #374151;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #00bcd4;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #00bcd4, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid rgba(0, 188, 212, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            background: rgba(0, 188, 212, 0.05);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-answer.open {
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body class="text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold">
+                        <span class="text-white">Techno</span><span class="text-cyan-400">Watch</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-white hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                        <a href="features.html" class="text-white hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Features</a>
+                        <a href="pricing.html" class="text-cyan-400 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Pricing</a>
+                        <a href="#about" class="text-white hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">About</a>
+                        <a href="#contact" class="text-white hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl lg:text-6xl font-bold mb-6">
+                Simple, <span class="gradient-text">Transparent</span> Pricing
+            </h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
+                Choose the perfect plan for your team's needs. All plans include our core monitoring features with flexible scaling options.
+            </p>
+            
+            <div class="flex justify-center items-center space-x-4 mb-8">
+                <span class="text-lg">Monthly</span>
+                <label class="toggle">
+                    <input type="checkbox" id="billing-toggle">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span class="text-lg">Annual <span class="text-cyan-400 text-sm">(Save 20%)</span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Calculator -->
+    <section class="py-20 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-6">Calculate Your Cost</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Use our pricing calculator to estimate your monthly cost based on your team size and feature requirements.
+                </p>
+            </div>
+            
+            <div class="calculator rounded-2xl p-8 max-w-4xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block text-lg font-semibold mb-4">Team Size</label>
+                            <input type="range" id="team-size-slider" class="slider" min="1" max="100" value="10">
+                            <div class="flex justify-between text-sm text-gray-400 mt-2">
+                                <span>1</span>
+                                <span>100+</span>
+                            </div>
+                            <div class="text-center mt-4">
+                                <span class="text-2xl font-bold text-cyan-400" id="team-size-display">10</span>
+                                <span class="text-gray-300"> users</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-lg font-semibold mb-4">Data Volume (GB/month)</label>
+                            <input type="range" id="data-volume-slider" class="slider" min="10" max="10000" value="100" step="10">
+                            <div class="flex justify-between text-sm text-gray-400 mt-2">
+                                <span>10GB</span>
+                                <span>10TB+</span>
+                            </div>
+                            <div class="text-center mt-4">
+                                <span class="text-2xl font-bold text-cyan-400" id="data-volume-display">100</span>
+                                <span class="text-gray-300"> GB</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-lg font-semibold mb-4">Additional Features</label>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span>AI-Powered Analytics</span>
+                                    <label class="toggle">
+                                        <input type="checkbox" id="ai-analytics" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Advanced Security</span>
+                                    <label class="toggle">
+                                        <input type="checkbox" id="advanced-security" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Custom Integrations</span>
+                                    <label class="toggle">
+                                        <input type="checkbox" id="custom-integrations">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Premium Support</span>
+                                    <label class="toggle">
+                                        <input type="checkbox" id="premium-support">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col justify-center">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold mb-4">Your Estimated Cost</h3>
+                            <div class="text-6xl font-bold text-cyan-400 mb-2">
+                                $<span id="monthly-cost">299</span>
+                            </div>
+                            <div class="text-gray-400" id="billing-period">per month</div>
+                            <div class="text-sm text-gray-500 mt-2" id="annual-savings" style="display: none;">
+                                Save $<span id="savings-amount">718</span> annually
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 bg-opacity-50 p-6 rounded-xl">
+                            <h4 class="text-lg font-semibold mb-4">What's Included:</h4>
+                            <ul class="text-gray-300 space-y-2" id="included-features">
+                                <li>✓ Real-time monitoring for <span id="included-users">10</span> users</li>
+                                <li>✓ <span id="included-data">100</span> GB data processing</li>
+                                <li>✓ AI-powered analytics</li>
+                                <li>✓ Advanced security features</li>
+                                <li>✓ 24/7 email support</li>
+                                <li>✓ Standard integrations</li>
+                            </ul>
+                        </div>
+                        
+                        <button class="w-full bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 mt-6" id="get-started-btn">
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Plans -->
+    <section class="py-20 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-6">Choose Your Plan</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Select the perfect plan for your organization. All plans include core features with flexible scaling options.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Starter Plan -->
+                <div class="pricing-card rounded-2xl p-8">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">Starter</h3>
+                        <p class="text-gray-400 mb-6">Perfect for small teams and startups</p>
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">
+                            $<span class="plan-price" data-base="99">99</span>
+                        </div>
+                        <div class="text-gray-400">per month</div>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Up to 10 users
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            100 GB data processing
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Basic monitoring
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Email support
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Standard integrations
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300">
+                        Start Free Trial
+                    </button>
+                </div>
+
+                <!-- Professional Plan -->
+                <div class="pricing-card featured rounded-2xl p-8">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-cyan-500 text-white px-4 py-1 rounded-full text-sm font-semibold">Most Popular</span>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">Professional</h3>
+                        <p class="text-gray-400 mb-6">Ideal for growing teams and businesses</p>
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">
+                            $<span class="plan-price" data-base="299">299</span>
+                        </div>
+                        <div class="text-gray-400">per month</div>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Up to 50 users
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            1 TB data processing
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            AI-powered analytics
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Advanced security
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Priority support
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Custom integrations
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300">
+                        Start Free Trial
+                    </button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card rounded-2xl p-8">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                        <p class="text-gray-400 mb-6">For large organizations and enterprises</p>
+                        <div class="text-4xl font-bold text-cyan-400 mb-2">
+                            Custom
+                        </div>
+                        <div class="text-gray-400">Contact us</div>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Unlimited users
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Unlimited data
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Enterprise features
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            White-label options
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            24/7 phone support
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Custom SLA
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 reveal">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-6">Frequently Asked Questions</h2>
+                <p class="text-xl text-gray-300">
+                    Get answers to common questions about TechnoWatch pricing and features.
+                </p>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="faq-item rounded-xl">
+                    <button class="w-full text-left p-6 focus:outline-none" onclick="toggleFAQ(0)">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">Can I change my plan anytime?</h3>
+                            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-6" id="faq-answer-0">
+                        <p class="text-gray-300">Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate any billing differences.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item rounded-xl">
+                    <button class="w-full text-left p-6 focus:outline-none" onclick="toggleFAQ(1)">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">Is there a free trial available?</h3>
+                            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-6" id="faq-answer-1">
+                        <p class="text-gray-300">Yes, we offer a 30-day free trial for all plans. No credit card required to start your trial, and you can cancel anytime during the trial period.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item rounded-xl">
+                    <button class="w-full text-left p-6 focus:outline-none" onclick="toggleFAQ(2)">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">What payment methods do you accept?</h3>
+                            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-6" id="faq-answer-2">
+                        <p class="text-gray-300">We accept all major credit cards (Visa, Mastercard, American Express) and bank transfers for enterprise customers. Monthly and annual billing options are available.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item rounded-xl">
+                    <button class="w-full text-left p-6 focus:outline-none" onclick="toggleFAQ(3)">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">How is data usage calculated?</h3>
+                            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-6" id="faq-answer-3">
+                        <p class="text-gray-300">Data usage is calculated based on the total volume of metrics, logs, and traces processed by our platform. You can monitor your usage in real-time from your dashboard.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item rounded-xl">
+                    <button class="w-full text-left p-6 focus:outline-none" onclick="toggleFAQ(4)">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold">Do you offer discounts for non-profits and educational institutions?</h3>
+                            <svg class="w-6 h-6 transform transition-transform" id="faq-icon-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-6" id="faq-answer-4">
+                        <p class="text-gray-300">Yes, we offer special pricing for qualified non-profit organizations and educational institutions. Contact our sales team to learn more about these programs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 reveal">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6">Ready to Get Started?</h2>
+            <p class="text-xl text-gray-300 mb-12">
+                Join thousands of technology leaders who trust TechnoWatch for their critical infrastructure monitoring needs.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <button class="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:scale-105" id="start-trial-final">
+                    Start Free Trial
+                </button>
+                <button class="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:scale-105" id="schedule-demo">
+                    Schedule Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="text-2xl font-bold mb-4">
+                        <span class="text-white">Techno</span><span class="text-cyan-400">Watch</span>
+                    </div>
+                    <p class="text-gray-300 mb-6 max-w-md">
+                        Empowering technology teams with AI-driven infrastructure monitoring and optimization solutions.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Product</h3>
+                    <ul class="space-y-2">
+                        <li><a href="features.html" class="text-gray-400 hover:text-cyan-400 transition-colors">Features</a></li>
+                        <li><a href="pricing.html" class="text-gray-400 hover:text-cyan-400 transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">API Reference</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-400 hover:text-cyan-400 transition-colors">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors">Careers</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-cyan-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 TechnoWatch. All rights reserved. Built with modern web technologies and AI-powered insights.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Pricing Calculator Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const teamSizeSlider = document.getElementById('team-size-slider');
+            const dataVolumeSlider = document.getElementById('data-volume-slider');
+            const billingToggle = document.getElementById('billing-toggle');
+            const monthlyCost = document.getElementById('monthly-cost');
+            const billingPeriod = document.getElementById('billing-period');
+            const annualSavings = document.getElementById('annual-savings');
+            const savingsAmount = document.getElementById('savings-amount');
+            
+            const teamSizeDisplay = document.getElementById('team-size-display');
+            const dataVolumeDisplay = document.getElementById('data-volume-display');
+            const includedUsers = document.getElementById('included-users');
+            const includedData = document.getElementById('included-data');
+            
+            const aiAnalytics = document.getElementById('ai-analytics');
+            const advancedSecurity = document.getElementById('advanced-security');
+            const customIntegrations = document.getElementById('custom-integrations');
+            const premiumSupport = document.getElementById('premium-support');
+            
+            const includedFeatures = document.getElementById('included-features');
+            
+            function updatePricing() {
+                const teamSize = parseInt(teamSizeSlider.value);
+                const dataVolume = parseInt(dataVolumeSlider.value);
+                const isAnnual = billingToggle.checked;
+                
+                // Update displays
+                teamSizeDisplay.textContent = teamSize;
+                dataVolumeDisplay.textContent = dataVolume;
+                includedUsers.textContent = teamSize;
+                includedData.textContent = dataVolume;
+                
+                // Calculate base price
+                let basePrice = 99; // Starter plan base
+                
+                if (teamSize > 10) {
+                    basePrice = 299; // Professional plan base
+                }
+                if (teamSize > 50 || dataVolume > 1000) {
+                    basePrice = 999; // Enterprise plan base
+                }
+                
+                // Add-ons
+                let addOnCost = 0;
+                if (aiAnalytics.checked) addOnCost += 50;
+                if (advancedSecurity.checked) addOnCost += 75;
+                if (customIntegrations.checked) addOnCost += 100;
+                if (premiumSupport.checked) addOnCost += 150;
+                
+                // Data volume pricing
+                const dataCost = Math.max(0, (dataVolume - 100) * 0.5);
+                
+                let totalPrice = basePrice + addOnCost + dataCost;
+                
+                // Apply annual discount
+                if (isAnnual) {
+                    totalPrice *= 0.8; // 20% discount
+                    billingPeriod.textContent = 'per month (billed annually)';
+                    annualSavings.style.display = 'block';
+                    const monthlyPrice = totalPrice;
+                    const annualSaving = (monthlyPrice / 0.8 - monthlyPrice) * 12;
+                    savingsAmount.textContent = Math.round(annualSaving);
+                } else {
+                    billingPeriod.textContent = 'per month';
+                    annualSavings.style.display = 'none';
+                }
+                
+                monthlyCost.textContent = Math.round(totalPrice);
+                
+                // Update plan prices
+                document.querySelectorAll('.plan-price').forEach(price => {
+                    const base = parseInt(price.getAttribute('data-base'));
+                    const discountedPrice = isAnnual ? Math.round(base * 0.8) : base;
+                    price.textContent = discountedPrice;
+                });
+                
+                // Update included features
+                let featuresHTML = `
+                    <li>✓ Real-time monitoring for <span id="included-users">${teamSize}</span> users</li>
+                    <li>✓ <span id="included-data">${dataVolume}</span> GB data processing</li>
+                `;
+                
+                if (aiAnalytics.checked) {
+                    featuresHTML += '<li>✓ AI-powered analytics</li>';
+                }
+                if (advancedSecurity.checked) {
+                    featuresHTML += '<li>✓ Advanced security features</li>';
+                }
+                if (customIntegrations.checked) {
+                    featuresHTML += '<li>✓ Custom integrations</li>';
+                }
+                if (premiumSupport.checked) {
+                    featuresHTML += '<li>✓ Premium support</li>';
+                } else {
+                    featuresHTML += '<li>✓ 24/7 email support</li>';
+                }
+                
+                featuresHTML += '<li>✓ Standard integrations</li>';
+                
+                includedFeatures.innerHTML = featuresHTML;
+            }
+            
+            // Event listeners
+            teamSizeSlider.addEventListener('input', updatePricing);
+            dataVolumeSlider.addEventListener('input', updatePricing);
+            billingToggle.addEventListener('change', updatePricing);
+            aiAnalytics.addEventListener('change', updatePricing);
+            advancedSecurity.addEventListener('change', updatePricing);
+            customIntegrations.addEventListener('change', updatePricing);
+            premiumSupport.addEventListener('change', updatePricing);
+            
+            // Initialize pricing
+            updatePricing();
+            
+            // FAQ Toggle
+            window.toggleFAQ = function(index) {
+                const answer = document.getElementById(`faq-answer-${index}`);
+                const icon = document.getElementById(`faq-icon-${index}`);
+                
+                if (answer.classList.contains('open')) {
+                    answer.classList.remove('open');
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    // Close all other FAQs
+                    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+                    document.querySelectorAll('[id^="faq-icon-"]').forEach(i => i.style.transform = 'rotate(0deg)');
+                    
+                    // Open clicked FAQ
+                    answer.classList.add('open');
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            };
+            
+            // Button interactions
+            document.getElementById('get-started-btn').addEventListener('click', function() {
+                alert('Redirecting to signup page... This would normally take you to the registration flow.');
+            });
+            
+            document.getElementById('start-trial-final').addEventListener('click', function() {
+                alert('Starting free trial... This would normally initiate the trial signup process.');
+            });
+            
+            document.getElementById('schedule-demo').addEventListener('click', function() {
+                alert('Scheduling demo... This would normally open a calendar booking interface.');
+            });
+            
+            // Scroll animations
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchandise - TechnoWatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(30, 58, 142, 0.95);
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/merch-showcase.png') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .merch-card {
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .merch-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 25px 50px rgba(30, 58, 142, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(30, 58, 142, 0.3);
+        }
+        
+        .btn-secondary {
+            border: 2px solid #1e3a8e;
+            color: #1e3a8e;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #1e3a8e;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .size-selector button {
+            transition: all 0.2s ease;
+        }
+        
+        .size-selector button.active {
+            background: #1e3a8e;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .cart-badge {
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: #1e3a8e;
+            color: white;
+        }
+        
+        .price-range {
+            background: linear-gradient(135deg, #1e3a8e 0%, #3b82f6 100%);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-blur shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-white">Techno</span><span class="text-blue-300">Watch</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-white hover:text-blue-300 px-3 py-2 text-sm font-medium transition-colors">HOME</a>
+                        <a href="about.html" class="text-white hover:text-blue-300 px-3 py-2 text-sm font-medium transition-colors">ABOUT US</a>
+                        <a href="contact.html" class="text-white hover:text-blue-300 px-3 py-2 text-sm font-medium transition-colors">CONTACT</a>
+                        <a href="merch.html" class="text-blue-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors border-b-2 border-blue-300">MERCH</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- Cart Icon -->
+                    <div class="relative">
+                        <button id="cart-btn" class="text-white hover:text-blue-300 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V9a2 2 0 012-2h2a2 2 0 012 2v10.01"></path>
+                            </svg>
+                        </button>
+                        <div id="cart-count" class="cart-badge hidden">0</div>
+                    </div>
+                    
+                    <div class="md:hidden">
+                        <button id="mobile-menu-btn" class="text-white hover:text-blue-300">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-blue-900 bg-opacity-95">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="text-white hover:text-blue-300 block px-3 py-2 text-base font-medium">HOME</a>
+                <a href="about.html" class="text-white hover:text-blue-300 block px-3 py-2 text-base font-medium">ABOUT US</a>
+                <a href="contact.html" class="text-white hover:text-blue-300 block px-3 py-2 text-base font-medium">CONTACT</a>
+                <a href="merch.html" class="text-blue-300 block px-3 py-2 text-base font-medium border-l-4 border-blue-300">MERCH</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg pt-24 pb-16">
+        <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl lg:text-6xl font-bold mb-6 text-white">
+                    Techno<span class="text-blue-300">Watch</span> Merch
+                </h1>
+                <p class="text-xl lg:text-2xl text-blue-100 leading-relaxed max-w-4xl mx-auto">
+                    Show your love for innovation with our premium collection of tech-inspired merchandise. 
+                    Quality products for the modern professional.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="py-12 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button class="filter-btn active px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 bg-gray-200 text-gray-700" data-filter="all">
+                    All Products
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 bg-gray-200 text-gray-700" data-filter="apparel">
+                    Apparel
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 bg-gray-200 text-gray-700" data-filter="accessories">
+                    Accessories
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 bg-gray-200 text-gray-700" data-filter="tech">
+                    Tech Gear
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 bg-gray-200 text-gray-700" data-filter="office">
+                    Office Supplies
+                </button>
+            </div>
+            
+            <div class="text-center mb-12">
+                <p class="text-gray-600">Showing <span id="product-count">12</span> products</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="pb-20 reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="products-grid">
+                <!-- Product 1 -->
+                <div class="merch-card" data-category="apparel">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Premium Hoodie" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Bestseller
+                        </div>
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Premium Tech Hoodie</h3>
+                        <p class="text-gray-600 text-sm mb-4">High-quality hoodie with TechnoWatch branding. Perfect for coding sessions and tech conferences.</p>
+                        <div class="size-selector mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Size:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="S">S</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="M">M</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="L">L</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="XL">XL</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="XXL">XXL</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$49.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Premium Tech Hoodie" data-price="49.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="merch-card" data-category="apparel">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Classic T-Shirt" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Classic Logo T-Shirt</h3>
+                        <p class="text-gray-600 text-sm mb-4">Comfortable cotton t-shirt featuring the iconic TechnoWatch logo. Available in multiple colors.</p>
+                        <div class="size-selector mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Size:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="S">S</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="M">M</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="L">L</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="XL">XL</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$24.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Classic Logo T-Shirt" data-price="24.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="merch-card" data-category="accessories">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Tech Backpack" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 bg-purple-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            New
+                        </div>
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Professional Tech Backpack</h3>
+                        <p class="text-gray-600 text-sm mb-4">Durable backpack with laptop compartment and multiple organizational pockets. Perfect for tech professionals.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Color:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-color="Black">Black</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-color="Navy">Navy</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-color="Gray">Gray</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$89.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Professional Tech Backpack" data-price="89.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="merch-card" data-category="tech">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Wireless Earbuds" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-yellow-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Limited
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">TechnoWatch Wireless Earbuds</h3>
+                        <p class="text-gray-600 text-sm mb-4">Premium wireless earbuds with noise cancellation and superior sound quality. Perfect for focus and productivity.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Features:</p>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• Active Noise Cancellation</li>
+                                <li>• 8-hour battery life</li>
+                                <li>• Quick charge technology</li>
+                            </ul>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$129.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="TechnoWatch Wireless Earbuds" data-price="129.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="merch-card" data-category="office">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Coffee Mug" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Developer Coffee Mug</h3>
+                        <p class="text-gray-600 text-sm mb-4">Premium ceramic mug with witty programming jokes. The perfect companion for late-night coding sessions.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Design:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-design="Code">"Code. Coffee. Repeat."</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-design="Debug">"It's not a bug, it's a feature"</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$19.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Developer Coffee Mug" data-price="19.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="merch-card" data-category="accessories">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Water Bottle" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 left-4 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Eco-Friendly
+                        </div>
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Stainless Steel Water Bottle</h3>
+                        <p class="text-gray-600 text-sm mb-4">Insulated water bottle that keeps your drinks cold for 24 hours or hot for 12 hours. Built for busy professionals.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Size:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="16oz">16oz</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="24oz">24oz</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="32oz">32oz</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$34.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Stainless Steel Water Bottle" data-price="34.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="merch-card" data-category="tech">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Power Bank" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Ultra-Portable Power Bank</h3>
+                        <p class="text-gray-600 text-sm mb-4">High-capacity power bank with fast charging technology. Keep your devices powered throughout the day.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Capacity:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-capacity="10000mAh">10,000mAh</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-capacity="20000mAh">20,000mAh</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$59.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Ultra-Portable Power Bank" data-price="59.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="merch-card" data-category="apparel">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Polo Shirt" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Performance Polo Shirt</h3>
+                        <p class="text-gray-600 text-sm mb-4">Moisture-wicking polo shirt perfect for business casual environments. Features subtle TechnoWatch branding.</p>
+                        <div class="size-selector mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Size:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="S">S</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="M">M</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="L">L</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="XL">XL</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="XXL">XXL</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$39.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Performance Polo Shirt" data-price="39.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 9 -->
+                <div class="merch-card" data-category="office">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Notebook Set" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Premium Notebook Set</h3>
+                        <p class="text-gray-600 text-sm mb-4">High-quality notebooks with grid and lined pages. Perfect for brainstorming, planning, and note-taking.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Set Includes:</p>
+                            <ul class="text-xs text-gray-600 space-y-1">
+                                <li>• 3 notebooks (grid, lined, dot)</li>
+                                <li>• TechnoWatch branded pen</li>
+                                <li>• Sticky notes pack</li>
+                            </ul>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$29.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Premium Notebook Set" data-price="29.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 10 -->
+                <div class="merch-card" data-category="accessories">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Laptop Sleeve" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Protective Laptop Sleeve</h3>
+                        <p class="text-gray-600 text-sm mb-4">Padded laptop sleeve with water-resistant material. Keeps your device safe and secure during transport.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Size:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="13inch">13"</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="15inch">15"</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-size="17inch">17"</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$44.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Protective Laptop Sleeve" data-price="44.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 11 -->
+                <div class="merch-card" data-category="tech">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="USB-C Hub" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">7-in-1 USB-C Hub</h3>
+                        <p class="text-gray-600 text-sm mb-4">Essential connectivity hub for modern laptops. Includes USB-A, HDMI, SD card reader, and more.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Ports:</p>
+                            <div class="text-xs text-gray-600 space-y-1">
+                                <span class="inline-block bg-gray-100 px-2 py-1 rounded mr-1 mb-1">2x USB-A 3.0</span>
+                                <span class="inline-block bg-gray-100 px-2 py-1 rounded mr-1 mb-1">HDMI 4K</span>
+                                <span class="inline-block bg-gray-100 px-2 py-1 rounded mr-1 mb-1">SD Card</span>
+                                <span class="inline-block bg-gray-100 px-2 py-1 rounded mr-1 mb-1">Ethernet</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$79.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="7-in-1 USB-C Hub" data-price="79.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 12 -->
+                <div class="merch-card" data-category="apparel">
+                    <div class="relative">
+                        <img src="resources/merch-showcase.png" alt="Beanie Hat" class="w-full h-64 object-cover">
+                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            In Stock
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Knit Beanie Hat</h3>
+                        <p class="text-gray-600 text-sm mb-4">Comfortable knit beanie with embroidered TechnoWatch logo. Perfect for keeping warm during late-night coding sessions.</p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Color:</p>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-color="Black">Black</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-color="Navy">Navy</button>
+                                <button class="px-3 py-1 rounded border border-gray-300 text-sm hover:bg-gray-100" data-color="Gray">Gray</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-blue-600">$24.99</span>
+                            <button class="add-to-cart btn-primary text-white px-6 py-2 rounded-lg text-sm font-semibold hover-effect" 
+                                    data-product="Knit Beanie Hat" data-price="24.99">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold text-gray-800">Shopping Cart</h2>
+                        <button id="close-cart" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div id="cart-items" class="space-y-4 mb-6">
+                        <!-- Cart items will be dynamically added here -->
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xl font-bold text-gray-800">Total:</span>
+                            <span id="cart-total" class="text-2xl font-bold text-blue-600">$0.00</span>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button id="clear-cart" class="btn-secondary bg-white flex-1 px-6 py-3 rounded-lg text-lg font-semibold">
+                                Clear Cart
+                            </button>
+                            <button id="checkout" class="btn-primary flex-1 text-white px-6 py-3 rounded-lg text-lg font-semibold">
+                                Checkout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <section class="py-20 reveal">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6 gradient-text">Don't See What You Need?</h2>
+            <p class="text-xl text-gray-600 mb-12">
+                We're always expanding our merchandise collection. Contact us for custom orders or to suggest new products you'd like to see.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="contact.html" class="btn-primary text-white px-8 py-4 rounded-lg text-lg font-semibold inline-block text-center">
+                    Request Custom Merch
+                </a>
+                <a href="about.html" class="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 inline-block text-center">
+                    Learn About Our Brand
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="text-2xl font-bold mb-4">
+                        <span class="text-white">Techno</span><span class="text-blue-400">Watch</span>
+                    </div>
+                    <p class="text-gray-300 mb-6 max-w-md">
+                        Empowering businesses with cutting-edge technology solutions, advanced monitoring systems, 
+                        and transformative digital experiences that drive growth and efficiency.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046.847c.473-.9 1.636-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.347-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-blue-400 transition-colors">Home</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-blue-400 transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-blue-400 transition-colors">Contact</a></li>
+                        <li><a href="merch.html" class="text-gray-400 hover:text-blue-400 transition-colors">Merchandise</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">Help Center</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-blue-400 transition-colors">Contact Support</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">Shipping Info</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">Returns & Exchanges</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 TechnoWatch. All rights reserved. Built with modern web technologies and innovative design.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // Merchandise specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            let cart = [];
+            
+            // Filter functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const products = document.querySelectorAll('.merch-card');
+            const productCount = document.getElementById('product-count');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active filter button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    let visibleCount = 0;
+                    
+                    products.forEach(product => {
+                        const category = product.getAttribute('data-category');
+                        if (filter === 'all' || category === filter) {
+                            product.style.display = 'block';
+                            visibleCount++;
+                        } else {
+                            product.style.display = 'none';
+                        }
+                    });
+                    
+                    productCount.textContent = visibleCount;
+                });
+            });
+            
+            // Size and color selection
+            document.querySelectorAll('.size-selector button, [data-color], [data-design], [data-capacity]').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from siblings
+                    const siblings = this.parentNode.querySelectorAll('button');
+                    siblings.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                });
+            });
+            
+            // Add to cart functionality
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productName = this.getAttribute('data-product');
+                    const price = parseFloat(this.getAttribute('data-price'));
+                    const card = this.closest('.merch-card');
+                    
+                    // Get selected options
+                    const selectedSize = card.querySelector('.size-selector button.active')?.textContent || 'M';
+                    const selectedColor = card.querySelector('[data-color].active')?.textContent || 'Default';
+                    const selectedDesign = card.querySelector('[data-design].active')?.textContent || 'Default';
+                    const selectedCapacity = card.querySelector('[data-capacity].active')?.textContent || 'Default';
+                    
+                    // Create cart item
+                    const item = {
+                        id: Date.now() + Math.random(),
+                        name: productName,
+                        price: price,
+                        size: selectedSize,
+                        color: selectedColor,
+                        design: selectedDesign,
+                        capacity: selectedCapacity,
+                        quantity: 1
+                    };
+                    
+                    // Add to cart
+                    cart.push(item);
+                    updateCartUI();
+                    
+                    // Show notification
+                    showNotification(`${productName} added to cart!`, 'success');
+                    
+                    // Animate button
+                    anime({
+                        targets: this,
+                        scale: [1, 0.95, 1],
+                        duration: 200,
+                        easing: 'easeInOutQuad'
+                    });
+                });
+            });
+            
+            // Cart modal functionality
+            const cartBtn = document.getElementById('cart-btn');
+            const cartModal = document.getElementById('cart-modal');
+            const closeCart = document.getElementById('close-cart');
+            const clearCart = document.getElementById('clear-cart');
+            const checkout = document.getElementById('checkout');
+            
+            cartBtn.addEventListener('click', function() {
+                cartModal.classList.remove('hidden');
+                updateCartItems();
+            });
+            
+            closeCart.addEventListener('click', function() {
+                cartModal.classList.add('hidden');
+            });
+            
+            cartModal.addEventListener('click', function(e) {
+                if (e.target === cartModal) {
+                    cartModal.classList.add('hidden');
+                }
+            });
+            
+            clearCart.addEventListener('click', function() {
+                cart = [];
+                updateCartUI();
+                showNotification('Cart cleared!', 'info');
+            });
+            
+            checkout.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    showNotification('Your cart is empty!', 'warning');
+                    return;
+                }
+                
+                showNotification('Redirecting to secure checkout...', 'success');
+                // In a real implementation, this would redirect to a payment processor
+                setTimeout(() => {
+                    alert('Thank you for your order! This is a demo - no actual payment was processed.');
+                    cart = [];
+                    updateCartUI();
+                    cartModal.classList.add('hidden');
+                }, 2000);
+            });
+            
+            function updateCartUI() {
+                const cartCount = document.getElementById('cart-count');
+                const cartTotal = document.getElementById('cart-total');
+                
+                if (cart.length > 0) {
+                    cartCount.textContent = cart.length;
+                    cartCount.classList.remove('hidden');
+                } else {
+                    cartCount.classList.add('hidden');
+                }
+                
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                cartTotal.textContent = `$${total.toFixed(2)}`;
+            }
+            
+            function updateCartItems() {
+                const cartItems = document.getElementById('cart-items');
+                cartItems.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<p class="text-gray-500 text-center py-8">Your cart is empty</p>';
+                    return;
+                }
+                
+                cart.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex items-center justify-between p-4 bg-gray-50 rounded-lg';
+                    
+                    const options = [];
+                    if (item.size !== 'Default') options.push(`Size: ${item.size}`);
+                    if (item.color !== 'Default') options.push(`Color: ${item.color}`);
+                    if (item.design !== 'Default') options.push(`Design: ${item.design}`);
+                    if (item.capacity !== 'Default') options.push(`Capacity: ${item.capacity}`);
+                    
+                    itemElement.innerHTML = `
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">${item.name}</h4>
+                            ${options.length > 0 ? `<p class="text-sm text-gray-600">${options.join(', ')}</p>` : ''}
+                            <p class="text-blue-600 font-semibold">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="remove-item text-red-500 hover:text-red-700 p-1" data-id="${item.id}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    `;
+                    
+                    cartItems.appendChild(itemElement);
+                });
+                
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const itemId = parseInt(this.getAttribute('data-id'));
+                        cart = cart.filter(item => item.id !== itemId);
+                        updateCartUI();
+                        updateCartItems();
+                        showNotification('Item removed from cart', 'info');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
